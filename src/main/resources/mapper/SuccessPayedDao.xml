@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atmuke.secpay.dao.SuccessPayedDao">
+
+    <insert id="insertSuccessPayed">
+        <!-- ignore主键冲突不报错、会直接返回0-->
+        insert ignore into success_payed (secpay_id,user_phone) values (#{secpayId},#{userPhone})
+    </insert>
+
+    <select id="queryByIdAndPhone" resultType="SuccessPayed">
+        select
+        sp.secpay_id,
+        sp.user_phone,
+        sp.state,
+        sp.create_time,
+        s.secpay_id "secPay.secpay_id",
+        s.name "secPay.name",
+        s.number "secPay.number",
+        s.start_time "secPay.start_time",
+        s.end_time "secPay.end_time",
+        s.create_time "secPay.create_time"
+        from success_payed sp inner join secpay s on sp.secpay_id = s.secpay_id
+        where sp.secpay_id = #{secpayId} and sp.user_phone = #{userPhone}
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atmuke.secpay.dao.SecPayDao">
+
+    <update id="reduceNumber">
+        update secpay set number = number - 1
+        where secpay_id = #{secpayId}
+        and start_time <![CDATA[<=]]> #{nowTime}
+        and end_time <![CDATA[>=]]> #{nowTime}
+        and number > 0
+    </update>
+
+    <select id="queryById" resultType="SecPay">
+        select secpay_id,name,number,start_time,end_time,create_time
+        from secpay where secpay_id = #{secpayId}
+    </select>
+
+    <select id="queryAll" resultType="SecPay">
+        select secpay_id,name,number,start_time,end_time,create_time
+        from secpay order by create_time desc limit #{offset},#{limit}
+    </select>
+
+</mapper>
